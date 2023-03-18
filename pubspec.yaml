@@ -1,0 +1,65 @@
+name: cackeapp
+description: A new Flutter project.
+
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.19.0 <3.0.0'
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+
+  cupertino_icons: ^1.0.2
+  dio: ^5.0.0
+  flutter_svg: ^1.1.6
+  get: ^4.6.5
+  fluttertoast: ^8.2.1
+  awesome_dialog: ^3.0.2
+  intl: ^0.17.0
+  lottie: ^2.2.0
+  flutter_secure_storage: ^8.0.0
+  google_nav_bar: ^5.0.5
+  line_icons: ^2.0.1
+  firebase_core_platform_interface: 4.4.1
+  firebase_auth_platform_interface: 6.2.5
+  firebase_auth: 3.3.17
+  firebase_core: 1.18.0
+  cloud_firestore: ^3.1.14
+  image_picker: ^0.8.5+3
+  cloud_functions: ^3.3.0
+  firebase_storage: ^10.2.17
+  path_provider: ^2.0.11
+  cached_network_image: ^3.2.0
+  readmore: ^2.1.0
+  flutter_custom_clippers: ^2.0.0
+  carousel_slider: ^4.1.1
+  firebase_database: ^9.0.7
+  provider: ^6.0.3
+  google_fonts: ^3.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+  flutter_lints: ^2.0.0
+
+
+flutter:
+
+ 
+  uses-material-design: true
+
+  
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/animations/
+
+  
