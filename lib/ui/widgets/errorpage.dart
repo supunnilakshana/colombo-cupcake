@@ -9,7 +9,7 @@ class Errorpage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-          child: Lottie.asset("assets/animation/error.json", width: size)),
+          child: Lottie.asset("assets/animations/error.json", width: size)),
     );
   }
 }

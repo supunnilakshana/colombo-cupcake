@@ -1,4 +1,5 @@
 import 'package:cackeapp/config/initdata.dart';
+import 'package:cackeapp/models/category_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -127,23 +128,23 @@ class FbHandeler {
     return model;
   }
 
-//   //commiunity
-//   static Future<List<PostModel>> getallPost() async {
-//     List<PostModel> enlist = [];
-//     PostModel enmodel;
-//     QuerySnapshot querySnapshot =
-//         await firestoreInstance.collection(CollectionPath.postpath).get();
-//     for (int i = 0; i < querySnapshot.docs.length; i++) {
-//       var a = querySnapshot.docs[i];
-//       print(a.data());
-//       enmodel = PostModel.fromMap(a.data() as Map<String, dynamic>, a.id);
-//       enlist.add(enmodel);
-//       print("passed");
-//     }
-//     print(enlist);
-//     enlist.sort((a, b) => b.addeddate.compareTo(a.addeddate));
-//     return enlist;
-//   }
+  //cat
+  static Future<List<CategoryModel>> getCategories() async {
+    List<CategoryModel> enlist = [];
+    CategoryModel enmodel;
+    QuerySnapshot querySnapshot =
+        await firestoreInstance.collection(CollectionPath.categorypath).get();
+    for (int i = 0; i < querySnapshot.docs.length; i++) {
+      var a = querySnapshot.docs[i];
+      print(a.data());
+      enmodel = CategoryModel.fromMap(a.data() as Map<String, dynamic>, a.id);
+      enlist.add(enmodel);
+      print("passed");
+    }
+    print(enlist);
+    enlist.sort((a, b) => b.name.compareTo(a.name));
+    return enlist;
+  }
 
 //   static Future<List<PostModel>> getnearPost() async {
 //     final usr = await getUser();

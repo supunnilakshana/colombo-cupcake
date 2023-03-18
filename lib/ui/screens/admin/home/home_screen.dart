@@ -1,3 +1,4 @@
+import 'package:cackeapp/ui/screens/admin/home/drawer.dart';
 import 'package:cackeapp/ui/styles/app_styles.dart';
 
 import 'package:flutter/material.dart';
@@ -51,7 +52,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
         }
       },
       child: Scaffold(
-        // drawer: const MenuDrawer(),
+        drawer: AdminDrawer(),
         appBar: AppBar(
           centerTitle: true,
           title: Text(
@@ -64,7 +65,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
           backgroundColor: Colors.transparent,
           leading: IconButton(
             onPressed: () {
-              //   _scaffoldKey.currentState!.openDrawer();
+              _scaffoldKey.currentState!.openDrawer();
             },
             icon: Icon(
               Icons.menu_rounded,
@@ -100,7 +101,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 duration: const Duration(milliseconds: 300),
-                tabBackgroundColor: Colors.blue.shade800.withOpacity(0.7),
+                tabBackgroundColor: appcolor,
                 color: Colors.black,
                 tabs: const [
                   GButton(

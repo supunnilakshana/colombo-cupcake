@@ -19,7 +19,9 @@ const String sucesscode = "sucessfull";
 
 class CollectionPath {
   static const userpath = "users/";
-  static const postpath = "post";
+  static const categorypath = "categories/";
+  static const productpath = "products/";
+  static const itempath = "items/";
 }
 
 class ItemType {
@@ -45,5 +47,5 @@ String getpossition(String role) {
 
 Widget getLoadinganimi(Size size) {
   return Lottie.asset("assets/animations/loadinganimi.json",
-      width: size.width * 0.6);
+      width: size.width * 0.26);
 }
