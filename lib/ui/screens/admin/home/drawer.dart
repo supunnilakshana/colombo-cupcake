@@ -2,6 +2,7 @@ import 'package:cackeapp/models/usermodel.dart';
 import 'package:cackeapp/services/auth/signin_mannager.dart';
 import 'package:cackeapp/ui/screens/admin/category/category_list.dart';
 import 'package:cackeapp/ui/screens/admin/home/home_screen.dart';
+import 'package:cackeapp/ui/screens/admin/products/addnew_producrs.dart';
 import 'package:cackeapp/ui/screens/auth/sign_in.dart';
 import 'package:cackeapp/ui/styles/app_styles.dart';
 import 'package:cackeapp/ui/widgets/popup_dilog.dart';
@@ -59,11 +60,10 @@ class AdminDrawer extends StatelessWidget {
                 ),
                 title: const Text('Products'),
                 onTap: () async {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) =>
-                  //             UserProfileScreen(umodel: userModel)));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CreateProductScreen()));
                 },
               ),
             ),
