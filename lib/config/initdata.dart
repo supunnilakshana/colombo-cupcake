@@ -8,8 +8,7 @@ const guserimg =
     "https://www.clipartmax.com/png/middle/319-3191274_male-avatar-admin-profile.png";
 
 const addtumb =
-    "https://firebasestorage.googleapis.com/v0/b/smartfair-fe0af.appspot.com/o/init%2Fadvertisement.png?alt=media&token=a16dcc2a-3813-40ee-96af-71e63ef21990";
-
+    "https://firebasestorage.googleapis.com/v0/b/cupcakeapp-b43c6.appspot.com/o/initdata%2Fcupcake.png?alt=media&token=5f696380-5a8e-4cdb-aba4-0200bbf5d72c";
 const userimagebucket = "images/users";
 const postimagebucket = "images/posts/";
 

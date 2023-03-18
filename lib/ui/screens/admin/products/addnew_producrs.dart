@@ -380,7 +380,7 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
   }
 
   Future<String> _imageUpload() async {
-    String imgurl = guserimg;
+    String imgurl = addtumb;
     if (isimgload) {
       Uint8List imgunitfile = await _image!.readAsBytes();
       String imgid = Date.getDateTimeId();
