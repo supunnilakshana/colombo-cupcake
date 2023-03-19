@@ -6,15 +6,13 @@ import 'package:cackeapp/ui/screens/admin/category/add_category.dart';
 import 'package:cackeapp/ui/screens/admin/home/home_screen.dart';
 import 'package:cackeapp/ui/screens/admin/products/addnew_producrs.dart';
 import 'package:cackeapp/ui/screens/admin/products/edit_products.dart';
+import 'package:cackeapp/ui/screens/store/sote_item_view.dart';
 import 'package:cackeapp/ui/styles/app_styles.dart';
 import 'package:cackeapp/ui/widgets/category_card.dart';
 import 'package:cackeapp/ui/widgets/chips_widget.dart';
 import 'package:cackeapp/ui/widgets/errorpage.dart';
 import 'package:cackeapp/ui/widgets/item_card.dart';
-import 'package:cackeapp/ui/widgets/popup_dilog.dart';
-import 'package:cackeapp/ui/widgets/product_card.dart';
-import 'package:cackeapp/ui/widgets/tots.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -40,6 +38,7 @@ class _StoreScreenState extends State<StoreScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -105,7 +104,14 @@ class _StoreScreenState extends State<StoreScreen> {
                           children:
                               List.generate(filterdProducts.length, (index) {
                             final item = filterdProducts[index];
-                            return ItemCard(pmodel: item);
+                            return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(context,
+                                      CupertinoPageRoute(builder: (context) {
+                                    return StoreItemView(productmodel: item);
+                                  }));
+                                },
+                                child: ItemCard(pmodel: item));
                           }),
                         ))
                       : Center(

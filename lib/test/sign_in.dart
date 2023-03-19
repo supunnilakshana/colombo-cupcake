@@ -1,27 +1,24 @@
-import 'package:cackeapp/config/initdata.dart';
-import 'package:cackeapp/services/auth/signin_mannager.dart';
 import 'package:cackeapp/services/validator/validate_handeler.dart';
-import 'package:cackeapp/ui/screens/auth/check_signIn.dart';
-import 'package:cackeapp/ui/screens/auth/sign_up_.dart';
-import 'package:cackeapp/ui/styles/app_styles.dart';
-import 'package:cackeapp/ui/widgets/already_have_an_account_acheck.dart';
-import 'package:cackeapp/ui/widgets/or_divider.dart';
-import 'package:cackeapp/ui/widgets/popup_dilog.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({Key? key}) : super(key: key);
+import '../ui/styles/app_styles.dart';
+import '../ui/widgets/already_have_an_account_acheck.dart';
+import '../ui/widgets/or_divider.dart';
+
+class SignIna extends StatefulWidget {
+  const SignIna({Key? key}) : super(key: key);
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<SignIna> createState() => _SignInaState();
 }
 
-class _SignInState extends State<SignIn> {
+class _SignInaState extends State<SignIna> {
   String _email = "";
   String _passWord = "";
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _uncon = TextEditingController();
   final TextEditingController _pwcon = TextEditingController();
@@ -29,7 +26,6 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      key: _scaffoldKey,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Form(
@@ -42,6 +38,38 @@ class _SignInState extends State<SignIn> {
               children: <Widget>[
                 SizedBox(
                   height: size.height * 0.05,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) {
+                        //       return const SelectLang();
+                        //     },
+                        //   ),
+                        // );
+                      },
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.language_outlined,
+                            size: 26,
+                            color: Colors.white,
+                          ),
+                          SizedBox(width: 5),
+                          Text(
+                            "Change Language",
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                  ],
                 ),
                 Padding(
                   padding:
@@ -63,7 +91,7 @@ class _SignInState extends State<SignIn> {
                       SizedBox(height: size.height * 0.01),
                       SizedBox(
                         width: size.width,
-                        child: Lottie.asset('assets/animations/baker.json',
+                        child: Lottie.asset('assets/animations/error.json',
                             height: size.height * 0.3),
                       ),
                     ],
@@ -93,7 +121,7 @@ class _SignInState extends State<SignIn> {
                                   borderRadius: BorderRadius.circular(10),
                                   boxShadow: const [
                                     BoxShadow(
-                                        color: Color.fromARGB(84, 150, 124, 30),
+                                        color: Color.fromARGB(85, 25, 167, 17),
                                         blurRadius: 20,
                                         offset: Offset(0, 10))
                                   ]),
@@ -107,14 +135,14 @@ class _SignInState extends State<SignIn> {
                                                 color: Colors.grey.shade200))),
                                     child: TextFormField(
                                       controller: _uncon,
-                                      validator: (value) {
-                                        return Validater.vaildemail(value!);
-                                      },
                                       onChanged: (value) {
                                         _email = value;
                                       },
+                                      validator: (value) {
+                                        return Validater.vaildemail(value!);
+                                      },
                                       decoration: const InputDecoration(
-                                          hintText: "Email",
+                                          hintText: "Email or Mobile No *",
                                           hintStyle:
                                               TextStyle(color: Colors.grey),
                                           border: InputBorder.none),
@@ -127,7 +155,7 @@ class _SignInState extends State<SignIn> {
                                             bottom: BorderSide(
                                                 color: Colors.grey.shade200))),
                                     child: TextFormField(
-                                      obscureText: isHidepassword,
+                                      obscureText: true,
                                       controller: _pwcon,
                                       onChanged: (value) {
                                         _passWord = value;
@@ -135,14 +163,11 @@ class _SignInState extends State<SignIn> {
                                       validator: (value) {
                                         return Validater.signupPassword(value!);
                                       },
-                                      decoration: InputDecoration(
-                                          suffixIcon: InkWell(
-                                              onTap: _viewPassword,
-                                              child:
-                                                  const Icon(Icons.visibility)),
-                                          hintText: "Password ",
-                                          hintStyle: const TextStyle(
-                                              color: Colors.grey),
+                                      decoration: const InputDecoration(
+                                          suffixIcon: Icon(Icons.visibility),
+                                          hintText: "Password *",
+                                          hintStyle:
+                                              TextStyle(color: Colors.grey),
                                           border: InputBorder.none),
                                     ),
                                   ),
@@ -174,44 +199,44 @@ class _SignInState extends State<SignIn> {
                             GestureDetector(
                               onTap: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  PopupDialog.loading(context);
-
-                                  int r = await SigninManager()
-                                      .signIn(_uncon.text.trim(), _pwcon.text);
-                                  // ignore: use_build_context_synchronously
-                                  Navigator.pop(context);
-
-                                  if (r == resok) {
-                                    print("loged");
-                                    // ignore: use_build_context_synchronously
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) {
-                                          return const CheckSignIn();
-                                        },
-                                      ),
-                                    );
-                                  } else if (r == resfail) {
-                                    Get.snackbar(
-                                      "Signin failed",
-                                      "Please enter the correct email or password",
-                                      backgroundColor: Colors.red,
-                                      icon: const Icon(Icons.error,
-                                          color: Colors.white),
-                                      snackPosition: SnackPosition.BOTTOM,
-                                    );
-                                  } else if (r == resfail) {
-                                    Get.snackbar(
-                                      "Signin failed",
-                                      "Please enter the correct email or password",
-                                      colorText: Colors.red,
-                                      backgroundColor: Colors.yellow,
-                                      icon: const Icon(Icons.error,
-                                          color: Colors.black),
-                                      snackPosition: SnackPosition.TOP,
-                                    );
-                                  }
+                                  // print("press login");
+                                  // print(_email.trim());
+                                  // print(_passWord);
+                                  // int r = await SigninManager()
+                                  //     .signIn(_email.trim(), _passWord);
+                                  // print(r.toString() +
+                                  //     "------------------------------------------");
+                                  // if (r == resok) {
+                                  //   print("loged");
+                                  //   // ignore: use_build_context_synchronously
+                                  //   Navigator.pushReplacement(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //       builder: (context) {
+                                  //         return const CheckSignIn();
+                                  //       },
+                                  //     ),
+                                  //   );
+                                  // } else if (r == resfail) {
+                                  //   Get.snackbar(
+                                  //     "Signin failed",
+                                  //     "Please enter the correct email or password",
+                                  //     backgroundColor: Colors.red,
+                                  //     icon: const Icon(Icons.error,
+                                  //         color: Colors.white),
+                                  //     snackPosition: SnackPosition.BOTTOM,
+                                  //   );
+                                  // } else if (r == resfail) {
+                                  //   Get.snackbar(
+                                  //     "Signin failed",
+                                  //     "Please enter the correct email or password",
+                                  //     colorText: Colors.red,
+                                  //     backgroundColor: Colors.yellow,
+                                  //     icon: const Icon(Icons.error,
+                                  //         color: Colors.black),
+                                  //     snackPosition: SnackPosition.TOP,
+                                  //   );
+                                  // }
                                 } else {
                                   print("Not Complete");
                                 }
@@ -237,14 +262,14 @@ class _SignInState extends State<SignIn> {
                             AlreadyHaveAnAccountCheck(
                               login: true,
                               press: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return const SignUp();
-                                    },
-                                  ),
-                                );
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) {
+                                //       return SelectUserScreen();
+                                //     },
+                                //   ),
+                                // );
                               },
                             ),
                             const SizedBox(
@@ -262,15 +287,5 @@ class _SignInState extends State<SignIn> {
         ),
       ),
     );
-  }
-
-  bool isHidepassword = true;
-  void _viewPassword() {
-    if (isHidepassword == true) {
-      isHidepassword = false;
-    } else {
-      isHidepassword = true;
-    }
-    setState(() {});
   }
 }

@@ -1,15 +1,12 @@
 import 'package:cackeapp/models/usermodel.dart';
 import 'package:cackeapp/services/auth/signin_mannager.dart';
-import 'package:cackeapp/ui/screens/admin/category/category_list.dart';
-import 'package:cackeapp/ui/screens/admin/home/home_screen.dart';
-import 'package:cackeapp/ui/screens/admin/products/addnew_producrs.dart';
-import 'package:cackeapp/ui/screens/admin/products/product_list.dart';
 import 'package:cackeapp/ui/screens/auth/sign_in.dart';
+import 'package:cackeapp/ui/screens/member/home/home_screen.dart';
+import 'package:cackeapp/ui/screens/member/orders/order_list.dart';
 import 'package:cackeapp/ui/styles/app_styles.dart';
 import 'package:cackeapp/ui/widgets/popup_dilog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
 
 class MemberDrawer extends StatelessWidget {
@@ -47,7 +44,7 @@ class MemberDrawer extends StatelessWidget {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const HomeScreenAdmin()));
+                          builder: (context) => const HomeScreenMember()));
                 },
               ),
             ),
@@ -61,10 +58,10 @@ class MemberDrawer extends StatelessWidget {
                 ),
                 title: const Text('My Orders'),
                 onTap: () async {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => const MyAdsScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MyOrderScreen()));
                 },
               ),
             ),

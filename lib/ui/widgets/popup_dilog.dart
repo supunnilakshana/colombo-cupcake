@@ -44,7 +44,7 @@ class PopupDialog {
             title: titel,
             desc: description,
             btnCancelText: "Cancel",
-            btnOkText: "Join",
+            btnOkText: "Accept",
             btnCancelOnPress: () {},
             btnOkOnPress: () {
               actionFun();
@@ -97,6 +97,23 @@ class PopupDialog {
       context: context,
       dialogType: DialogType.ERROR,
       animType: AnimType.BOTTOMSLIDE,
+      title: titel,
+      desc: description,
+      btnOkText: "Ok",
+      btnCancel: null,
+      btnOkOnPress: () {},
+    ).show();
+  }
+
+  static showPopupinfo(
+    BuildContext context,
+    String titel,
+    String description,
+  ) {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.success,
+      animType: AnimType.bottomSlide,
       title: titel,
       desc: description,
       btnOkText: "Ok",

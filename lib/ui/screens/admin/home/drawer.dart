@@ -2,6 +2,7 @@ import 'package:cackeapp/models/usermodel.dart';
 import 'package:cackeapp/services/auth/signin_mannager.dart';
 import 'package:cackeapp/ui/screens/admin/category/category_list.dart';
 import 'package:cackeapp/ui/screens/admin/home/home_screen.dart';
+import 'package:cackeapp/ui/screens/admin/orders/order_list.dart';
 import 'package:cackeapp/ui/screens/admin/products/addnew_producrs.dart';
 import 'package:cackeapp/ui/screens/admin/products/product_list.dart';
 import 'package:cackeapp/ui/screens/auth/sign_in.dart';
@@ -79,23 +80,6 @@ class AdminDrawer extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => const CategoryScreen()));
-                },
-              ),
-            ),
-
-            Card(
-              elevation: 0,
-              child: ListTile(
-                leading: const Icon(
-                  Icons.list_rounded,
-                  color: kPrimaryColordark,
-                ),
-                title: const Text('Orders'),
-                onTap: () async {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => const MyAdsScreen()));
                 },
               ),
             ),

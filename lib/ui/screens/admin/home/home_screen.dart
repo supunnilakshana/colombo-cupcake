@@ -1,4 +1,5 @@
 import 'package:cackeapp/ui/screens/admin/home/drawer.dart';
+import 'package:cackeapp/ui/screens/admin/orders/order_list.dart';
 import 'package:cackeapp/ui/screens/store/store_screen.dart';
 import 'package:cackeapp/ui/styles/app_styles.dart';
 
@@ -31,10 +32,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    List<Widget> widgetOptions = [
-      StoreScreen(),
-      Container(),
-    ];
+    List<Widget> widgetOptions = const [StoreScreen(), AllOrderScreen()];
     return WillPopScope(
       onWillPop: () {
         final timegap = DateTime.now().difference(pre_backpress);

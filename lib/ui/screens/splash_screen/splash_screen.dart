@@ -33,7 +33,7 @@ class StartState extends State<SplashScreen> {
     return new Timer(duration, route);
   }
 
-  route() async {
+  route() {
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => CheckSignIn()));
   }

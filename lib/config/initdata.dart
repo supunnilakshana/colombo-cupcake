@@ -22,6 +22,8 @@ class CollectionPath {
   static const categorypath = "categories/";
   static const productpath = "products/";
   static const itempath = "items/";
+
+  static const orderPath = "orders/";
 }
 
 class ItemType {

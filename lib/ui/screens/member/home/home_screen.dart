@@ -1,3 +1,4 @@
+import 'package:cackeapp/ui/screens/member/cart/cart_screen.dart';
 import 'package:cackeapp/ui/screens/member/home/drawer.dart';
 import 'package:cackeapp/ui/screens/store/store_screen.dart';
 import 'package:cackeapp/ui/styles/app_styles.dart';
@@ -9,7 +10,7 @@ import 'package:line_icons/line_icons.dart';
 class HomeScreenMember extends StatefulWidget {
   final int index;
 
-  const HomeScreenMember({Key? key, this.index = 1}) : super(key: key);
+  const HomeScreenMember({Key? key, this.index = 0}) : super(key: key);
   @override
   _HomeScreenMemberState createState() => _HomeScreenMemberState();
 }
@@ -31,10 +32,7 @@ class _HomeScreenMemberState extends State<HomeScreenMember> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    List<Widget> widgetOptions = [
-      StoreScreen(),
-      Container(),
-    ];
+    List<Widget> widgetOptions = const [StoreScreen(), CartPage()];
     return WillPopScope(
       onWillPop: () {
         final timegap = DateTime.now().difference(pre_backpress);
@@ -52,6 +50,7 @@ class _HomeScreenMemberState extends State<HomeScreenMember> {
         }
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         drawer: MemberDrawer(),
         appBar: AppBar(
           centerTitle: true,
@@ -109,7 +108,7 @@ class _HomeScreenMemberState extends State<HomeScreenMember> {
                     text: 'Home',
                   ),
                   GButton(
-                    icon: LineIcons.bookmark,
+                    icon: LineIcons.shoppingCart,
                     text: 'Cart',
                   ),
                 ],

@@ -1,4 +1,3 @@
-import 'package:cackeapp/config/initdata.dart';
 import 'package:cackeapp/ui/screens/auth/load_userdata.dart';
 import 'package:cackeapp/ui/screens/auth/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,14 +9,13 @@ class CheckSignIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
         body: StreamBuilder(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: getLoadinganimi(size),
+          return const Center(
+            child: CircularProgressIndicator(),
           );
         } else if (snapshot.hasData) {
           return const LoadUserData();

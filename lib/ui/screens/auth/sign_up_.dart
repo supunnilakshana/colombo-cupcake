@@ -45,6 +45,7 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),

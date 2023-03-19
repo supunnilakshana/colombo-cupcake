@@ -1,8 +1,14 @@
 // ignore_for_file: unnecessary_const
 
+import 'package:cackeapp/config/initdata.dart';
 import 'package:cackeapp/models/cart_item_model.dart';
+import 'package:cackeapp/models/order_model.dart';
 import 'package:cackeapp/models/usermodel.dart';
+import 'package:cackeapp/services/firebase/fb_handeler.dart';
+import 'package:cackeapp/ui/styles/app_styles.dart';
 import 'package:cackeapp/ui/widgets/emptycart.dart';
+import 'package:cackeapp/ui/widgets/popup_dilog.dart';
+import 'package:cackeapp/ui/widgets/tots.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -52,18 +58,23 @@ class _CartPageState extends State<CartPage> {
       return Scaffold(
         key: _scaffoldKey,
         backgroundColor: Colors.white,
+        // floatingActionButton: FloatingActionButton.extended(
+        //     icon: const Icon(Icons.shopping_cart_checkout_rounded),
+        //     backgroundColor: appcolor,
+        //     onPressed: () {},
+        //     label: const Text("Checkout")),
         body: SafeArea(
-            child: Container(
+            child: SizedBox(
           height: screenHeight,
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const Text(
+              Text(
                 "My Cart",
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold),
+                    color: Colors.black.withOpacity(0.8),
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 20),
               Container(
@@ -71,12 +82,12 @@ class _CartPageState extends State<CartPage> {
                 height: 35,
                 width: MediaQuery.of(context).size.width * 0.7,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: const Color(0xff17191f)),
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 child: Text(
                   "You have ${cartlist.length} items in your cart",
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: Colors.black.withOpacity(0.9),
                     fontSize: 15,
                   ),
                   textAlign: TextAlign.center,
@@ -87,13 +98,16 @@ class _CartPageState extends State<CartPage> {
                   child: ListView.builder(
                       itemCount: cartlist.length,
                       itemBuilder: (context, index) {
-                        return posCartCard(
-                            index: index,
-                            screenHeight: screenHeight,
-                            name: cartlist[index].item.name,
-                            price: cartlist[index].item.price,
-                            quantity: cartlist[index].qty,
-                            imageURL: cartlist[index].item.imageurl);
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: posCartCard(
+                              index: index,
+                              screenHeight: screenHeight,
+                              name: cartlist[index].item.name,
+                              price: cartlist[index].item.price,
+                              quantity: cartlist[index].qty,
+                              imageURL: cartlist[index].item.imageurl),
+                        );
                       })),
               Column(
                 children: [
@@ -115,15 +129,17 @@ class _CartPageState extends State<CartPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
+                            Text(
                               "Total",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 25),
+                              style: TextStyle(
+                                  color: Colors.black.withOpacity(0.9),
+                                  fontSize: 25),
                             ),
                             Text(
                               "LKR ${total.toStringAsFixed(2)}",
-                              style: const TextStyle(
-                                  color: Colors.white, fontSize: 25),
+                              style: TextStyle(
+                                  color: Colors.black.withOpacity(0.9),
+                                  fontSize: 25),
                             )
                           ],
                         ),
@@ -131,99 +147,52 @@ class _CartPageState extends State<CartPage> {
                     ),
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 20,
                   ),
-                  MaterialButton(
-                    onPressed: () async {
-                      // try {
-                      //   setState(() {
-                      //     ispress = true;
-                      //   });
-                      //   _scaffoldKey.currentState!
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: MaterialButton(
+                      onPressed: () async {
+                        if (cartlist.isNotEmpty) {
+                          PopupDialog.loading(context);
+                          final user = FirebaseAuth.instance.currentUser;
+                          final OrderModel orderModel = OrderModel(
+                              customerID: user!.uid,
+                              customerName: cpmodel.name,
+                              items: cartlist,
+                              total: total.toDouble(),
+                              iscomplete: false,
+                              createdAt: DateTime.now());
+                          final res = await FbHandeler.createDocAuto(
+                              orderModel.toMap(), CollectionPath.orderPath);
+                          Navigator.pop(context);
+                          if (res == resok) {
+                            Customtost.orderadd();
+                            // ignore: use_build_context_synchronously
 
-                      //       // ignore: deprecated_member_use
-                      //       .showSnackBar(SnackBar(
-                      //     duration: const Duration(seconds: 4),
-                      //     backgroundColor: Colors.brown,
-                      //     content: Row(
-                      //       children: const <Widget>[
-                      //         CircularProgressIndicator(),
-                      //         Text("processing...")
-                      //       ],
-                      //     ),
-                      //   ));
-                      //   List<CartItemModel> tempcartlist = [];
-                      //   final user = FirebaseAuth.instance.currentUser;
-                      //   BakeryItemModel tempbitem;
-
-                      //   for (var element in cartlist) {
-                      //     if (element.itemtype == ItemType.bakery) {
-                      //       tempbitem = await DbHandeler.getBakeryItem(
-                      //           element.id);
-
-                      //       if (tempbitem.QTY != 0) {
-                      //         tempbitem.QTY = tempbitem.QTY - element.qty;
-                      //         await DbHandeler.updateDoc(
-                      //             tempbitem.toMap(),
-                      //             CollectionPath.bakeryitempath,
-                      //             tempbitem.bID!);
-                      //         await DbHandeler.setReorderbakeryAuto(
-                      //             tempbitem);
-
-                      //         tempcartlist.add(element);
-                      //       } else {}
-                      //     } else {
-                      //       tempcartlist.add(element);
-                      //     }
-                      //   }
-                      //   OrderModel orderModel = OrderModel(
-                      //       date: Date.getStringdatenow(),
-                      //       customerID: cpmodel.phone,
-                      //       cashierID: user!.uid,
-                      //       customerName: cpmodel.name,
-                      //       items: tempcartlist,
-                      //       discount: discount,
-                      //       totalPrice: total - discount,
-                      //       createdAt: DateTime.now());
-
-                      //   int res = await DbHandeler.createDocAuto(
-                      //       orderModel.toMap(), CollectionPath.orderpath);
-                      //   if (res == resok) {
-                      //     print("order create");
-                      //     context.read<UserModel>().clearcart();
-                      //     Customtost.commontost(
-                      //         "order created", Colors.green);
-                      //     Navigator.push(context,
-                      //         CupertinoPageRoute(builder: (context) {
-                      //       return OrderSuccess(
-                      //         customerModel: cpmodel,
-                      //         total: total - discount,
-                      //       );
-                      //     }));
-                      //   } else {
-                      //     Customtost.commontost(
-                      //         "Action failed", Colors.red);
-                      //   }
-
-                      //   setState(() {
-                      //     ispress = false;
-                      //   });
-                      // } on Exception catch (e) {
-                      //   print(e);
-                      //   setState(() {
-                      //     ispress = false;
-                      //   });
-                      // }
-                    },
-                    minWidth: 150,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    color: const Color(0xffd17842),
-                    child: const Text(
-                      "Place Order!",
-                      style: TextStyle(
-                        color: Colors.white,
+                            PopupDialog.showPopupinfo(
+                              context,
+                              "Order Sccussfull",
+                              "Total :$total",
+                            );
+                            context.read<UserModel>().clearcart();
+                          } else {
+                            Customtost.orderfail();
+                          }
+                        }
+                      },
+                      minWidth: 150,
+                      height: screenHeight * 0.06,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      color: appcolor,
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Place Order!",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
                       ),
                     ),
                   ),
@@ -267,18 +236,18 @@ class posCartCard extends StatelessWidget {
           height: screenHeight * 0.2 - 30,
           width: double.infinity,
           decoration: BoxDecoration(
-              color: const Color(0xff171b22),
+              color: kPrimaryColorlight,
               borderRadius: BorderRadius.circular(25)),
           child: Row(
             children: [
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
-                          blurRadius: 2.0,
-                          spreadRadius: 1.0,
-                          color: Color(0xff30221f),
+                          blurRadius: 1.0,
+                          spreadRadius: 0.5,
+                          color: kPrimaryColordark.withOpacity(0.5),
                         ),
                       ],
                       image: DecorationImage(
@@ -304,7 +273,7 @@ class posCartCard extends StatelessWidget {
                           },
                           child: const Icon(
                             Icons.close,
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                         )
                       ],
@@ -312,7 +281,7 @@ class posCartCard extends StatelessWidget {
                     Text(
                       name,
                       style: const TextStyle(
-                        color: Color(0xffaeaeae),
+                        color: Colors.black,
                         fontSize: 22,
                         fontWeight: FontWeight.w500,
                       ),
@@ -330,10 +299,10 @@ class posCartCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              price.toString(),
+                              price.toStringAsFixed(2),
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                             ),
                           ],
@@ -346,7 +315,7 @@ class posCartCard extends StatelessWidget {
                               }),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: const Color.fromARGB(255, 82, 77, 71),
+                                  color: appcolor,
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
                                 child: const Icon(Icons.add,
@@ -357,7 +326,7 @@ class posCartCard extends StatelessWidget {
                             Text(
                               quantity.toString(),
                               style: const TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20),
                             ),
@@ -370,7 +339,7 @@ class posCartCard extends StatelessWidget {
                               }),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: const Color.fromARGB(255, 82, 77, 71),
+                                  color: appcolor,
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
                                 child: const Icon(Icons.remove,
