@@ -1,3 +1,4 @@
+import 'package:cackeapp/models/cart_item_model.dart';
 import 'package:flutter/cupertino.dart';
 
 class UserModel extends ChangeNotifier {
@@ -7,6 +8,7 @@ class UserModel extends ChangeNotifier {
   String phone;
   String role;
   String date;
+  List<CartItemModel> cart = [];
 
   UserModel({
     this.uid,
@@ -45,6 +47,37 @@ class UserModel extends ChangeNotifier {
     phone = userModel.phone;
     role = userModel.role;
     date = userModel.date;
+
     notifyListeners();
+  }
+
+  addcart(CartItemModel citem) {
+    cart.add(citem);
+    notifyListeners();
+  }
+
+  additemcount(int index) {
+    cart[index].qty = cart[index].qty + 1;
+    notifyListeners();
+  }
+
+  removecartitem(int index) {
+    cart.removeAt(index);
+    notifyListeners();
+  }
+
+  clearcart() {
+    cart = [];
+    notifyListeners();
+  }
+
+  removeitemcount(int index) {
+    if (cart[index].qty > 0) {
+      cart[index].qty = cart[index].qty - 1;
+      notifyListeners();
+    } else {
+      cart.removeAt(index);
+      notifyListeners();
+    }
   }
 }

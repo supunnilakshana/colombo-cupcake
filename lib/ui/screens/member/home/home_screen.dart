@@ -1,3 +1,5 @@
+import 'package:cackeapp/ui/screens/member/home/drawer.dart';
+import 'package:cackeapp/ui/screens/store/store_screen.dart';
 import 'package:cackeapp/ui/styles/app_styles.dart';
 
 import 'package:flutter/material.dart';
@@ -30,8 +32,7 @@ class _HomeScreenMemberState extends State<HomeScreenMember> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     List<Widget> widgetOptions = [
-      Container(),
-      Container(),
+      StoreScreen(),
       Container(),
     ];
     return WillPopScope(
@@ -51,7 +52,7 @@ class _HomeScreenMemberState extends State<HomeScreenMember> {
         }
       },
       child: Scaffold(
-        // drawer: const MenuDrawer(),
+        drawer: MemberDrawer(),
         appBar: AppBar(
           centerTitle: true,
           title: Text(
@@ -64,7 +65,7 @@ class _HomeScreenMemberState extends State<HomeScreenMember> {
           backgroundColor: Colors.transparent,
           leading: IconButton(
             onPressed: () {
-              //   _scaffoldKey.currentState!.openDrawer();
+              _scaffoldKey.currentState!.openDrawer();
             },
             icon: Icon(
               Icons.menu_rounded,
@@ -93,20 +94,16 @@ class _HomeScreenMemberState extends State<HomeScreenMember> {
                   const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
               child: GNav(
                 rippleColor: kPrimaryColordark,
-                hoverColor: Colors.lightBlueAccent,
+                hoverColor: Colors.deepOrangeAccent,
                 gap: 8,
                 activeColor: Colors.black,
                 iconSize: 24,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 duration: const Duration(milliseconds: 300),
-                tabBackgroundColor: Colors.blue.shade800.withOpacity(0.7),
+                tabBackgroundColor: appcolor,
                 color: Colors.black,
                 tabs: const [
-                  GButton(
-                    icon: LineIcons.tag,
-                    text: 'MY Orders',
-                  ),
                   GButton(
                     icon: LineIcons.home,
                     text: 'Home',

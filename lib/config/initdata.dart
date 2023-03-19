@@ -1,3 +1,4 @@
+import 'package:cackeapp/models/category_model.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -48,3 +49,5 @@ Widget getLoadinganimi(Size size) {
   return Lottie.asset("assets/animations/loadinganimi.json",
       width: size.width * 0.26);
 }
+
+final CategoryModel defCategory = CategoryModel(name: "All", id: "-1");

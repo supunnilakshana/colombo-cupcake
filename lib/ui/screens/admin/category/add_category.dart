@@ -48,18 +48,8 @@ class _CreatCategoryScreenState extends State<CreatCategoryScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: size.height * 0.02),
-                BackButton(
+                const BackButton(
                   color: Colors.white,
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const HomeScreenAdmin();
-                        },
-                      ),
-                    );
-                  },
                 ),
                 Padding(
                   padding: const EdgeInsets.only(

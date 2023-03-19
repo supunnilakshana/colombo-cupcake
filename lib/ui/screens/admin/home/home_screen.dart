@@ -1,4 +1,5 @@
 import 'package:cackeapp/ui/screens/admin/home/drawer.dart';
+import 'package:cackeapp/ui/screens/store/store_screen.dart';
 import 'package:cackeapp/ui/styles/app_styles.dart';
 
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ import 'package:line_icons/line_icons.dart';
 class HomeScreenAdmin extends StatefulWidget {
   final int index;
 
-  const HomeScreenAdmin({Key? key, this.index = 1}) : super(key: key);
+  const HomeScreenAdmin({Key? key, this.index = 0}) : super(key: key);
   @override
   _HomeScreenAdminState createState() => _HomeScreenAdminState();
 }
@@ -16,7 +17,7 @@ class HomeScreenAdmin extends StatefulWidget {
 class _HomeScreenAdminState extends State<HomeScreenAdmin> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
   @override
   void initState() {
     _selectedIndex = widget.index;
@@ -31,8 +32,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     List<Widget> widgetOptions = [
-      Container(),
-      Container(),
+      StoreScreen(),
       Container(),
     ];
     return WillPopScope(
@@ -58,7 +58,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
           title: Text(
             "Cake Admin",
             style: TextStyle(
-                color: Colors.black.withOpacity(0.7),
+                color: Colors.black.withOpacity(0.9),
                 fontSize: size.width * 0.05),
           ),
           elevation: 0,

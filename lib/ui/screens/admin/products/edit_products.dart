@@ -18,14 +18,15 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 
-class CreateProductScreen extends StatefulWidget {
-  const CreateProductScreen({Key? key}) : super(key: key);
+class EditProductScreen extends StatefulWidget {
+  final ProductModel pmode;
+  const EditProductScreen({Key? key, required this.pmode}) : super(key: key);
 
   @override
-  State<CreateProductScreen> createState() => _CreateProductScreenState();
+  State<EditProductScreen> createState() => _EditProductScreenState();
 }
 
-class _CreateProductScreenState extends State<CreateProductScreen> {
+class _EditProductScreenState extends State<EditProductScreen> {
   String _price = "";
   String _desc = "";
   String _mobile = "";
@@ -48,9 +49,12 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
   }
 
   late Future<List<CategoryModel>> futureData;
-
+  bool isfirst = true;
   loadData() {
     futureData = FbHandeler.getCategories();
+    _titelcon.text = widget.pmode.name;
+    _descriptioncon.text = widget.pmode.context;
+    _pricecon.text = widget.pmode.price.toStringAsFixed(2);
     setState(() {});
   }
 
@@ -70,7 +74,16 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
             if (snapshot.hasData) {
               List<CategoryModel> data = snapshot.data as List<CategoryModel>;
               print(data);
+
               if (data.isNotEmpty) {
+                if (isfirst) {
+                  categorySelection = data.indexWhere(
+                    (element) => element.id == widget.pmode.category.id,
+                  );
+                  category = data[categorySelection];
+                  isfirst = false;
+                }
+
                 return Form(
                   key: _formKey,
                   child: Container(
@@ -90,7 +103,7 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text(
-                                "Create a new product",
+                                "Edit your new product",
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 32),
                               ),
@@ -131,6 +144,7 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
                                           children: List.generate(data.length,
                                               (index) {
                                             final item = data[index];
+
                                             return Padding(
                                               padding:
                                                   const EdgeInsets.all(5.0),
@@ -156,30 +170,30 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: SizedBox(
-                                            width: size.width * 0.16,
-                                            child: GestureDetector(
-                                              child: Image.asset(
-                                                  "assets/images/cupcake.png"),
-                                              onTap: () async {
-                                                FocusScope.of(context)
-                                                    .unfocus();
-                                                _imgFromGallery();
-                                              },
-                                            ),
-                                          ),
-                                        ),
+                                        isimgload
+                                            ? SizedBox(
+                                                width: size.width * 0.4,
+                                                child: Image.file(
+                                                    File(_image!.path)),
+                                              )
+                                            : Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: SizedBox(
+                                                  width: size.width * 0.4,
+                                                  child: GestureDetector(
+                                                    child: Image.network(
+                                                        widget.pmode.imageurl),
+                                                    onTap: () async {
+                                                      FocusScope.of(context)
+                                                          .unfocus();
+                                                      _imgFromGallery();
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
                                       ],
                                     ),
-                                    isimgload
-                                        ? SizedBox(
-                                            width: size.width * 0.6,
-                                            child:
-                                                Image.file(File(_image!.path)),
-                                          )
-                                        : Container(),
                                     const SizedBox(
                                       height: 10,
                                     ),
@@ -290,11 +304,10 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
                                               addeddate: DateTime.now());
                                           // ignore: use_build_context_synchronously
 
-                                          int r =
-                                              await FbHandeler.createDocAuto(
-                                            pmodel.toMap(),
-                                            CollectionPath.productpath,
-                                          );
+                                          int r = await FbHandeler.updateDoc(
+                                              pmodel.toMap(),
+                                              CollectionPath.productpath,
+                                              widget.pmode.id!);
 
                                           if (r == resok) {
                                             //  ignore: use_build_context_synchronously
@@ -307,7 +320,7 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
                                               ),
                                             );
                                             Customtost.commontost(
-                                                "Succussfully created",
+                                                "Succussfully updated",
                                                 Colors.green);
                                           } else if (r == resfail) {
                                             // ignore: use_build_context_synchronously
@@ -337,7 +350,7 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
                                             color: kPrimaryColordark),
                                         child: const Center(
                                           child: Text(
-                                            "Create",
+                                            "Update",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold),
@@ -399,14 +412,14 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
   }
 
   Future<String> _imageUpload() async {
-    String imgurl = addtumb;
+    String imgurl = widget.pmode.imageurl;
     if (isimgload) {
       Uint8List imgunitfile = await _image!.readAsBytes();
       String imgid = Date.getDateTimeId();
       imgurl =
           await FileUploader.uploadImage(imgunitfile, postimagebucket, imgid);
     } else {
-      imgurl = addtumb;
+      imgurl = widget.pmode.imageurl;
     }
     return imgurl;
   }

@@ -12,8 +12,8 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-class AdminDrawer extends StatelessWidget {
-  AdminDrawer({
+class MemberDrawer extends StatelessWidget {
+  MemberDrawer({
     Key? key,
   }) : super(key: key);
 
@@ -32,10 +32,9 @@ class AdminDrawer extends StatelessWidget {
             UserAccountsDrawerHeader(
                 decoration: const BoxDecoration(color: kPrimaryColorlight),
                 accountEmail: Text(user!.email.toString()),
-                accountName: Text("${userModel.name}"),
-                currentAccountPicture: CircleAvatar(
-                    backgroundImage:
-                        const AssetImage("assets/images/admin.png"))),
+                accountName: Text(userModel.name),
+                currentAccountPicture: const CircleAvatar(
+                    backgroundImage: AssetImage("assets/images/user.png"))),
             Card(
               elevation: 0,
               child: ListTile(
@@ -52,36 +51,6 @@ class AdminDrawer extends StatelessWidget {
                 },
               ),
             ),
-            Card(
-              elevation: 0,
-              child: ListTile(
-                leading: const Icon(
-                  Icons.cake_rounded,
-                  color: kPrimaryColordark,
-                ),
-                title: const Text('Products'),
-                onTap: () async {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ProductScreen()));
-                },
-              ),
-            ),
-            Card(
-              elevation: 0,
-              child: ListTile(
-                leading: const Icon(
-                  Icons.category,
-                  color: kPrimaryColordark,
-                ),
-                title: const Text('Categories'),
-                onTap: () async {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CategoryScreen()));
-                },
-              ),
-            ),
 
             Card(
               elevation: 0,
@@ -90,7 +59,7 @@ class AdminDrawer extends StatelessWidget {
                   Icons.list_rounded,
                   color: kPrimaryColordark,
                 ),
-                title: const Text('Orders'),
+                title: const Text('My Orders'),
                 onTap: () async {
                   // Navigator.push(
                   //     context,

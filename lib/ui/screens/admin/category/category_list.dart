@@ -2,6 +2,7 @@ import 'package:cackeapp/config/initdata.dart';
 import 'package:cackeapp/models/category_model.dart';
 import 'package:cackeapp/services/firebase/fb_handeler.dart';
 import 'package:cackeapp/ui/screens/admin/category/add_category.dart';
+import 'package:cackeapp/ui/screens/admin/home/home_screen.dart';
 import 'package:cackeapp/ui/styles/app_styles.dart';
 import 'package:cackeapp/ui/widgets/category_card.dart';
 import 'package:cackeapp/ui/widgets/errorpage.dart';
@@ -41,8 +42,18 @@ class _CategoryScreenState extends State<CategoryScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Text("Cake Categories"),
-        leading: const BackButton(
+        leading: BackButton(
           color: kPrimaryColordark,
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return const HomeScreenAdmin();
+                },
+              ),
+            );
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
