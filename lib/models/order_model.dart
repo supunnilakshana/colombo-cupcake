@@ -9,6 +9,9 @@ class OrderModel {
   final String? orderID;
   String customerID;
   String customerName;
+  String customerMobile;
+  String customerAddr;
+  String customerEmail;
   List<CartItemModel> items;
   double total;
   bool iscomplete;
@@ -17,6 +20,9 @@ class OrderModel {
     this.orderID,
     required this.customerID,
     required this.customerName,
+    required this.customerMobile,
+    required this.customerAddr,
+    required this.customerEmail,
     required this.items,
     required this.total,
     required this.iscomplete,
@@ -27,6 +33,9 @@ class OrderModel {
     String? orderID,
     String? customerID,
     String? customerName,
+    String? customerMobile,
+    String? customerAddr,
+    String? customerEmail,
     List<CartItemModel>? items,
     double? total,
     bool? iscomplete,
@@ -36,6 +45,9 @@ class OrderModel {
       orderID: orderID ?? this.orderID,
       customerID: customerID ?? this.customerID,
       customerName: customerName ?? this.customerName,
+      customerMobile: customerMobile ?? this.customerMobile,
+      customerAddr: customerAddr ?? this.customerAddr,
+      customerEmail: customerEmail ?? this.customerEmail,
       items: items ?? this.items,
       total: total ?? this.total,
       iscomplete: iscomplete ?? this.iscomplete,
@@ -48,6 +60,9 @@ class OrderModel {
       'orderID': orderID,
       'customerID': customerID,
       'customerName': customerName,
+      'customerMobile': customerMobile,
+      'customerAddr': customerAddr,
+      'customerEmail': customerEmail,
       'items': items.map((x) => x.toMap()).toList(),
       'total': total,
       'iscomplete': iscomplete,
@@ -60,6 +75,9 @@ class OrderModel {
       orderID: id,
       customerID: map['customerID'] as String,
       customerName: map['customerName'] as String,
+      customerMobile: map['customerMobile'] as String,
+      customerAddr: map['customerAddr'] as String,
+      customerEmail: map['customerEmail'] as String,
       items: List<CartItemModel>.from(
         (map['items'] as List<dynamic>).map<CartItemModel>(
           (x) => CartItemModel.fromMap(x as Map<String, dynamic>),
@@ -75,7 +93,7 @@ class OrderModel {
 
   @override
   String toString() {
-    return 'OrderModel(orderID: $orderID, customerID: $customerID, customerName: $customerName, items: $items, total: $total, iscomplete: $iscomplete, createdAt: $createdAt)';
+    return 'OrderModel(orderID: $orderID, customerID: $customerID, customerName: $customerName, customerMobile: $customerMobile, customerAddr: $customerAddr, customerEmail: $customerEmail, items: $items, total: $total, iscomplete: $iscomplete, createdAt: $createdAt)';
   }
 
   @override
@@ -85,6 +103,9 @@ class OrderModel {
     return other.orderID == orderID &&
         other.customerID == customerID &&
         other.customerName == customerName &&
+        other.customerMobile == customerMobile &&
+        other.customerAddr == customerAddr &&
+        other.customerEmail == customerEmail &&
         listEquals(other.items, items) &&
         other.total == total &&
         other.iscomplete == iscomplete &&
@@ -96,6 +117,9 @@ class OrderModel {
     return orderID.hashCode ^
         customerID.hashCode ^
         customerName.hashCode ^
+        customerMobile.hashCode ^
+        customerAddr.hashCode ^
+        customerEmail.hashCode ^
         items.hashCode ^
         total.hashCode ^
         iscomplete.hashCode ^

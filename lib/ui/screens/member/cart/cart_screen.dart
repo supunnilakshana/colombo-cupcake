@@ -5,6 +5,7 @@ import 'package:cackeapp/models/cart_item_model.dart';
 import 'package:cackeapp/models/order_model.dart';
 import 'package:cackeapp/models/usermodel.dart';
 import 'package:cackeapp/services/firebase/fb_handeler.dart';
+import 'package:cackeapp/ui/screens/place_order/place_order.dart';
 import 'package:cackeapp/ui/styles/app_styles.dart';
 import 'package:cackeapp/ui/widgets/emptycart.dart';
 import 'package:cackeapp/ui/widgets/popup_dilog.dart';
@@ -154,31 +155,39 @@ class _CartPageState extends State<CartPage> {
                     child: MaterialButton(
                       onPressed: () async {
                         if (cartlist.isNotEmpty) {
-                          PopupDialog.loading(context);
-                          final user = FirebaseAuth.instance.currentUser;
-                          final OrderModel orderModel = OrderModel(
-                              customerID: user!.uid,
-                              customerName: cpmodel.name,
-                              items: cartlist,
-                              total: total.toDouble(),
-                              iscomplete: false,
-                              createdAt: DateTime.now());
-                          final res = await FbHandeler.createDocAuto(
-                              orderModel.toMap(), CollectionPath.orderPath);
-                          Navigator.pop(context);
-                          if (res == resok) {
-                            Customtost.orderadd();
-                            // ignore: use_build_context_synchronously
-
-                            PopupDialog.showPopupinfo(
+                          Navigator.push(
                               context,
-                              "Order Sccussfull",
-                              "Total :$total",
-                            );
-                            context.read<UserModel>().clearcart();
-                          } else {
-                            Customtost.orderfail();
-                          }
+                              MaterialPageRoute(
+                                  builder: (context) => PlaceOrderScreen(
+                                      user: cpmodel,
+                                      items: cartlist,
+                                      total: total)));
+
+                          // PopupDialog.loading(context);
+                          // final user = FirebaseAuth.instance.currentUser;
+                          // final OrderModel orderModel = OrderModel(
+                          //     customerID: user!.uid,
+                          //     customerName: cpmodel.name,
+                          //     items: cartlist,
+                          //     total: total.toDouble(),
+                          //     iscomplete: false,
+                          //     createdAt: DateTime.now());
+                          // final res = await FbHandeler.createDocAuto(
+                          //     orderModel.toMap(), CollectionPath.orderPath);
+                          // Navigator.pop(context);
+                          // if (res == resok) {
+                          //   Customtost.orderadd();
+                          //   // ignore: use_build_context_synchronously
+
+                          //   PopupDialog.showPopupinfo(
+                          //     context,
+                          //     "Order Sccussfull",
+                          //     "Total :$total",
+                          //   );
+                          //   context.read<UserModel>().clearcart();
+                          // } else {
+                          //   Customtost.orderfail();
+                          // }
                         }
                       },
                       minWidth: 150,

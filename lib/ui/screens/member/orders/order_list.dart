@@ -76,7 +76,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                   var itemData = data[index];
                   String items = "";
                   for (var element in itemData.items) {
-                    items = "\n\t${element.item.name} x ${element.qty}";
+                    items += "\n\t${element.item.name} x ${element.qty}";
                   }
                   return OrderCard(
                     ordermodel: itemData,

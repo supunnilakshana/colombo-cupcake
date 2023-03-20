@@ -1,21 +1,10 @@
 import 'package:cackeapp/config/initdata.dart';
-import 'package:cackeapp/models/category_model.dart';
 import 'package:cackeapp/models/order_model.dart';
-import 'package:cackeapp/models/product_model.dart';
 import 'package:cackeapp/services/firebase/fb_handeler.dart';
-import 'package:cackeapp/ui/screens/admin/category/add_category.dart';
-import 'package:cackeapp/ui/screens/admin/home/home_screen.dart';
-import 'package:cackeapp/ui/screens/admin/products/addnew_producrs.dart';
-import 'package:cackeapp/ui/screens/admin/products/edit_products.dart';
-import 'package:cackeapp/ui/styles/app_styles.dart';
-import 'package:cackeapp/ui/widgets/category_card.dart';
 import 'package:cackeapp/ui/widgets/errorpage.dart';
 import 'package:cackeapp/ui/widgets/order_card.dart';
 import 'package:cackeapp/ui/widgets/popup_dilog.dart';
-import 'package:cackeapp/ui/widgets/product_card.dart';
 import 'package:cackeapp/ui/widgets/tots.dart';
-import 'package:firebase_core/firebase_core.dart';
-
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -63,19 +52,19 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
                   var itemData = data[index];
                   String items = "";
                   for (var element in itemData.items) {
-                    items = "\n\t${element.item.name} x ${element.qty}";
+                    items += "\n\t${element.item.name} x ${element.qty}";
                   }
                   return OrderCard(
                     ordermodel: itemData,
                     info: () {
                       PopupDialog.showPopupinfo(context, "Order Details",
-                          "Order id :${itemData.orderID}\nCustomer name :${itemData.customerName}\nItems :\n$items\nTotal:${itemData.total} ");
+                          "Order id :${itemData.orderID}\nCustomer name :${itemData.customerName}\nCustomer Email :${itemData.customerEmail}\nCustomer Mobile :${itemData.customerEmail}\nCustomer Address :${itemData.customerAddr}\nItems :\n$items\nTotal:${itemData.total} ");
                     },
                     accept: () {
                       PopupDialog.showPopupDilog(
                           context,
                           "Are you sure to accept this order ?",
-                          "Order id :${itemData.orderID}\nCustomer name :${itemData.customerName}\nItems :\n$items\nTotal:${itemData.total} ",
+                          "Order id :${itemData.orderID}\nCustomer name :${itemData.customerName}\nCustomer Email :${itemData.customerEmail}\nCustomer Mobile :${itemData.customerEmail}\nCustomer Address :${itemData.customerAddr}\nItems :\n$items\nTotal:${itemData.total} ",
                           () async {
                         var om = itemData;
                         om.iscomplete = true;
@@ -101,7 +90,6 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
           } else if (snapshot.hasError) {
             return Errorpage(size: size.width * 0.7);
           }
-
           return Center(child: getLoadinganimi(size));
         },
       ),

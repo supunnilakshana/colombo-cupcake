@@ -4,6 +4,7 @@ import 'package:cackeapp/models/order_model.dart';
 import 'package:cackeapp/models/product_model.dart';
 import 'package:cackeapp/models/usermodel.dart';
 import 'package:cackeapp/services/firebase/fb_handeler.dart';
+import 'package:cackeapp/ui/screens/place_order/place_order.dart';
 import 'package:cackeapp/ui/styles/app_styles.dart';
 import 'package:cackeapp/ui/widgets/popup_dilog.dart';
 import 'package:cackeapp/ui/widgets/tots.dart';
@@ -64,31 +65,39 @@ class _StoreItemViewState extends State<StoreItemView> {
                             qty: itemquantity)
                       ];
                       print("pressed");
-                      PopupDialog.loading(context);
-                      final user = FirebaseAuth.instance.currentUser;
-                      final OrderModel orderModel = OrderModel(
-                          customerID: user!.uid,
-                          customerName: cpmodel.name,
-                          items: citem,
-                          total: widget.productmodel.price,
-                          iscomplete: false,
-                          createdAt: DateTime.now());
-                      final res = await FbHandeler.createDocAuto(
-                          orderModel.toMap(), CollectionPath.orderPath);
-                      Navigator.pop(context);
-                      if (res == resok) {
-                        Customtost.orderadd();
-                        // ignore: use_build_context_synchronously
 
-                        // ignore: use_build_context_synchronously
-                        PopupDialog.showPopupinfo(
+                      Navigator.push(
                           context,
-                          "Order Sccussfull",
-                          "Total :${widget.productmodel.price.toDouble() * itemquantity}",
-                        );
-                      } else {
-                        Customtost.orderfail();
-                      }
+                          MaterialPageRoute(
+                              builder: (context) => PlaceOrderScreen(
+                                  user: cpmodel, items: citem, total: total)));
+
+                      // PopupDialog.loading(context);
+                      // final user = FirebaseAuth.instance.currentUser;
+
+                      // final OrderModel orderModel = OrderModel(
+                      //     customerID: user!.uid,
+                      //     customerName: cpmodel.name,
+                      //     items: citem,
+                      //     total: widget.productmodel.price,
+                      //     iscomplete: false,
+                      //     createdAt: DateTime.now());
+                      // final res = await FbHandeler.createDocAuto(
+                      //     orderModel.toMap(), CollectionPath.orderPath);
+                      // Navigator.pop(context);
+                      // if (res == resok) {
+                      //   Customtost.orderadd();
+                      //   // ignore: use_build_context_synchronously
+
+                      //   // ignore: use_build_context_synchronously
+                      //   PopupDialog.showPopupinfo(
+                      //     context,
+                      //     "Order Sccussfull",
+                      //     "Total :${widget.productmodel.price.toDouble() * itemquantity}",
+                      //   );
+                      // } else {
+                      //   Customtost.orderfail();
+                      // }
                     },
                     label: const Text("Order Now"))),
             // button third//button first
